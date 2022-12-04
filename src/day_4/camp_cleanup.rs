@@ -10,7 +10,7 @@ struct CleaningSections {
     second: Sections,
 }
 
-fn section_str_to_range(s: &str) -> Sections {
+fn section_str_to_range_edge_indexes(s: &str) -> Sections {
     let range = s
         .split('-')
         .collect::<Vec<&str>>()
@@ -27,8 +27,8 @@ fn section_str_to_range(s: &str) -> Sections {
 fn map_cleaning_range_str_to_cleaning_sections(s: &str) -> CleaningSections {
     let sections = s.split(',').collect::<Vec<&str>>();
 
-    let first_assignment_range = section_str_to_range(sections[0]);
-    let second_assignment_range = section_str_to_range(sections[1]);
+    let first_assignment_range = section_str_to_range_edge_indexes(sections[0]);
+    let second_assignment_range = section_str_to_range_edge_indexes(sections[1]);
 
     CleaningSections {
         first: first_assignment_range,
