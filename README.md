@@ -1,6 +1,8 @@
 # Enzo Bomark's Advent of Code 2022 Solutions
 
-## Usage:
+Current stars ⭐️: 8
+
+### Usage:
 
 1. To get all the results 
 
