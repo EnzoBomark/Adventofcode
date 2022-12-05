@@ -2,6 +2,7 @@ mod day_1;
 mod day_2;
 mod day_3;
 mod day_4;
+mod day_5;
 mod file_reader;
 
 fn main() {
@@ -13,6 +14,7 @@ fn main() {
             "02" => day_2::rock_paper_scissors::run(),
             "03" => day_3::rucksack_organization::run(),
             "04" => day_4::camp_cleanup::run(),
+            "05" => day_5::supply_stacks::run(),
             _ => println!("Day {} does not exist", day),
         }
     } else {
@@ -21,6 +23,7 @@ fn main() {
         day_2::rock_paper_scissors::run();
         day_3::rucksack_organization::run();
         day_4::camp_cleanup::run();
+        day_5::supply_stacks::run();
         println!("Done 🎉");
     }
 }
