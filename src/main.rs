@@ -6,6 +6,7 @@ mod day_5;
 mod day_6;
 mod day_7;
 mod day_8;
+mod day_9;
 mod file_reader;
 
 fn main() {
@@ -24,6 +25,7 @@ fn main() {
             "06" => day_6::tuning_trouble::run(),
             "07" => day_7::no_space_left_on_device::run(),
             "08" => day_8::treetop_tree_house::run(),
+            "09" => day_9::rope_bridge::run(),
             _ => println!("Day {} does not exist", day),
         }
     } else {
@@ -36,6 +38,7 @@ fn main() {
         day_6::tuning_trouble::run();
         day_7::no_space_left_on_device::run();
         day_8::treetop_tree_house::run();
+        day_9::rope_bridge::run();
         println!("Done 🎉");
     }
 
