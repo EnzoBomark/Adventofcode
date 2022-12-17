@@ -41,7 +41,7 @@ impl Coordination {
     }
 }
 
-fn compute_tail_move(from: Coordination, to: Coordination) -> Coordination {
+fn get_tail_move(from: Coordination, to: Coordination) -> Coordination {
     let mut delta_x: i32 = to.x - from.x;
     let mut delta_y: i32 = to.y - from.y;
 
@@ -60,6 +60,21 @@ fn compute_tail_move(from: Coordination, to: Coordination) -> Coordination {
     }
 }
 
+fn move_rope_node(direction: Direction, node: &mut Coordination) {
+    match direction {
+        Direction::Up => node.y += 1,
+        Direction::Right => node.x += 1,
+        Direction::Down => node.y -= 1,
+        Direction::Left => node.x -= 1,
+    }
+}
+
+fn should_move_tail(tail: Coordination, head: Coordination) -> bool {
+    let v1 = (tail.x - head.x).abs();
+    let v2 = (tail.y - head.y).abs();
+    cmp::max(v1, v2) > 1
+}
+
 fn compute_rope(
     direction: Direction,
     distance: i32,
@@ -68,18 +83,10 @@ fn compute_rope(
     visited: &mut HashSet<Coordination>,
 ) {
     for _ in 1..=distance {
-        match direction {
-            Direction::Up => head.y += 1,
-            Direction::Right => head.x += 1,
-            Direction::Down => head.y -= 1,
-            Direction::Left => head.x -= 1,
-        }
+        move_rope_node(direction, head);
 
-        let delta_x = (tail.x - head.x).abs();
-        let delta_y = (tail.y - head.y).abs();
-
-        if cmp::max(delta_x, delta_y) > 1 {
-            let delta = compute_tail_move(*tail, *head);
+        if should_move_tail(*tail, *head) {
+            let delta = get_tail_move(*tail, *head);
             tail.x += delta.x;
             tail.y += delta.y;
             visited.insert(*tail);
@@ -94,23 +101,13 @@ fn compute_rope_with_knots(
     visited: &mut HashSet<Coordination>,
 ) {
     for _ in 1..=distance {
-        match direction {
-            Direction::Up => knots[0].y += 1,
-            Direction::Right => knots[0].x += 1,
-            Direction::Down => knots[0].y -= 1,
-            Direction::Left => knots[0].x -= 1,
-        }
+        move_rope_node(direction, &mut knots[0]);
 
-        for n in 1..=TAIL_LENGTH {
-            let sn = n as usize;
-
-            let delta_x = (knots[sn].x - knots[sn - 1].x).abs();
-            let delta_y = (knots[sn].y - knots[sn - 1].y).abs();
-
-            if cmp::max(delta_x, delta_y) > 1 {
-                let delta = compute_tail_move(knots[sn], knots[sn - 1]);
-                knots[sn].x += delta.x;
-                knots[sn].y += delta.y;
+        for i in 1..=TAIL_LENGTH {
+            if should_move_tail(knots[i], knots[i - 1]) {
+                let delta = get_tail_move(knots[i], knots[i - 1]);
+                knots[i].x += delta.x;
+                knots[i].y += delta.y;
             }
         }
 
